@@ -27,6 +27,7 @@ class Notification extends Model
         'body',
         'type'
     ];
+
     public function send()
     {
         return true;
