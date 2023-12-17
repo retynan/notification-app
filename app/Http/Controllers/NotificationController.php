@@ -39,7 +39,9 @@ class NotificationController extends Controller
             'type' => $input['type']
         ]);
 
-        ProccesNotification::dispatch($notification);
+        $service = $notification->getNotificationService();
+
+        ProccesNotification::dispatch($service);
 
         return redirect()->route('notification.index');
     }
@@ -76,7 +78,9 @@ class NotificationController extends Controller
             'type' => $input['type']
         ])->save();
 
-        ProccesNotification::dispatch($notification);
+        $service = $notification->getNotificationService();
+
+        ProccesNotification::dispatch($service);
 
         return redirect()->route('notification.index');
     }

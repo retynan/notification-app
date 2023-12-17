@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\Notification;
+use App\Interfaces\NotificationServiceInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -24,11 +24,11 @@ class ProccesNotification implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(Notification $notification): void
+    public function handle(NotificationServiceInterface $notification): void
     {
         if ($notification->send())
             $this->release();
-
-        $this->fail();
+        else
+            $this->fail();
     }
 }

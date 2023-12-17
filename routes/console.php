@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
+use App\Jobs\ProccesNotification;
 use Illuminate\Support\Facades\Artisan;
 use App\Models\Notification;
 
@@ -26,10 +26,11 @@ Artisan::command('notification:send {id}', function (int $id)
         {
             $notification = Notification::query()->whereNull('deleted_at')->findOrFail($id);
 
-            if ($notification->send())
-                $this->info('Notification sent');
-            else
-                $this->error('Notification not sent');
+            $service = $notification->getNotificationService();
+
+            ProccesNotification::dispatch($service);
+
+            $this->info('Notification created and queued for dispatch');
         }
         catch (Exception $e)
         {
